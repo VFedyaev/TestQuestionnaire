@@ -1,0 +1,11 @@
+﻿@using Questionnaire.WEB.Models
+@model AnswerViewModel
+@{
+    ViewData["Title"] = "About answer";
+}
+<label asp-for="Answer.Name">Имя: @Html.DisplayFor(x => x.Answer.Name)</label><br />
+<label asp-for="Answer.Age">Возраст: @Html.DisplayFor(x => x.Answer.Age)</label><br />
+<label asp-for="Answer.Gender">Пол: @Html.DisplayFor(x => x.Answer.Gender)</label><br />
+<label asp-for="Answer.DateBorn">Дата рождения: @Html.DisplayFor(x => x.Answer.DateBorn)</label><br />
+<label asp-for="Answer.MaritalStatus">Семейное положение: @Html.DisplayFor(x => x.Answer.MaritalStatus)</label><br />
+<label asp-for="Answer.Programming">Любит программирование: @Html.DisplayFor(x => x.Answer.Programming)</label>
