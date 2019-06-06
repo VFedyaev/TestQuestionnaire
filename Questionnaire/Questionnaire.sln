@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Questionnaire.WEB", "Questi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Questionnaire.Data", "Questionnaire.Data\Questionnaire.Data.csproj", "{C8CE2EC8-86B4-4B0A-8389-CFB149CF4898}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Questionnaire.Service", "Questionnaire.Service\Questionnaire.Service.csproj", "{85DDA4B2-7B1B-490D-B377-B1FD7CAF19D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C8CE2EC8-86B4-4B0A-8389-CFB149CF4898}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8CE2EC8-86B4-4B0A-8389-CFB149CF4898}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8CE2EC8-86B4-4B0A-8389-CFB149CF4898}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85DDA4B2-7B1B-490D-B377-B1FD7CAF19D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85DDA4B2-7B1B-490D-B377-B1FD7CAF19D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85DDA4B2-7B1B-490D-B377-B1FD7CAF19D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85DDA4B2-7B1B-490D-B377-B1FD7CAF19D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
