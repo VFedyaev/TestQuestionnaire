@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Questionnaire.Data.Interfaces;
 
@@ -14,31 +16,51 @@ namespace Questionnaire.Data.Patterns
             _context = context;
         }
 
-        public virtual IQueryable<T> GetAll()
-        {
-            return _context.Set<T>();
-        }
+        public virtual IQueryable<T> All() =>
+            _context.Set<T>();
 
-        public virtual T GetById(Guid? id)
-        {
-            return _context.Find<T>(id);
-        }
+        #region Async
 
-        public void Create(T entity)
-        {
+        public virtual Task<T> GetByIdAsync(params object[] id) =>
+            _context.FindAsync<T>(id);
+
+        public virtual Task InsertAsync(T entity) =>
+            _context.AddAsync(entity);
+
+        public virtual Task InsertAsync(IEnumerable<T> entities) =>
+            _context.AddRangeAsync(entities);
+
+        #endregion
+
+        #region Sync
+
+        public virtual T GetById(params object[] id) =>
+            _context.Find<T>(id);
+
+        public virtual void Insert(T entity) =>
             _context.Add(entity);
-        }
 
-        public void Update(T entity)
-        {
+        public virtual void Insert(IEnumerable<T> entities) =>
+            _context.AddRange(entities);
+
+        public virtual void Update(T entity) =>
             _context.Update(entity);
+
+        public virtual void Update(IEnumerable<T> entities) =>
+            _context.UpdateRange(entities);
+
+        public virtual void Delete(T entity) =>
+            _context.Remove(entity);
+
+        public virtual void Delete(params object[] id)
+        {
+            var entity = _context.Find<T>(id);
+            _context.Remove(entity);
         }
 
-        public void Delete(Guid id)
-        {
-            T entity = _context.Find<T>(id);
-            if (entity != null)
-                _context.Remove(entity);
-        }
+        public virtual void Delete(IEnumerable<T> entities) =>
+            _context.RemoveRange(entities);
+
+        #endregion
     }
 }

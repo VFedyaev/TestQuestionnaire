@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Questionnaire.Service.Services
 {
@@ -17,13 +18,13 @@ namespace Questionnaire.Service.Services
         protected abstract IQueryable<TEntity> Order(IQueryable<TEntity> items, bool isFirst, QueryOrder<TSortType> order);
         protected abstract IQueryable<TEntity> Search(IQueryable<TEntity> items, QuerySearch search);
 
-        public virtual QueryResponse<TModel> Get(QueryRequest<TSortType> query) => Get(query, _uow.GetRepository<TEntity>().GetAll());
+        public virtual Task<QueryResponse<TModel>> GetAsync(QueryRequest<TSortType> query) => GetAsync(query, _uow.GetRepository<TEntity>().All());
 
-        protected virtual QueryResponse<TModel> Get(QueryRequest<TSortType> query, IQueryable<TEntity> items)
+        protected virtual async Task<QueryResponse<TModel>> GetAsync(QueryRequest<TSortType> query, IQueryable<TEntity> items)
         {
             var result = new QueryResponse<TModel>();
             // include properties
-            items = Include(items, query.Inclides);
+            items = Include(items, query.Includes);
             // search filter
             items = Search(items, query.Search);
             // get totla count
@@ -33,7 +34,7 @@ namespace Questionnaire.Service.Services
             // paging
             items = Paging(items, query.Start, query.Length);
             // get filtered items list
-            result.Data = Mapper.Map<IList<TModel>>(items.ToList());
+            result.Data = _mapper.Map<IList<TModel>>(await items.ToListAsync());
             // get filtered count
             result.RecordsFiltered = result.Data.Count();
             // return query response

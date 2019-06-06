@@ -7,6 +7,7 @@ using Questionnaire.Service.Interfaces;
 using Questionnaire.Service.Query;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Questionnaire.Service.Services
 {
@@ -14,23 +15,24 @@ namespace Questionnaire.Service.Services
     {
         public AnswerService(IUnitOfWork uow, IMapper mapper) : base(uow, mapper) { }
 
-        public void AddAnswer(AnswerModel answerModel)
-        {
-            var answer = _uow.GetRepository<Answer>().GetAll().FirstOrDefault(x => x.Name == answerModel.Name && x.UserId == answerModel.UserId);
 
+        public async Task AddAnswerAsync(AnswerModel answerModel)
+        {
+            var answer = _uow.GetRepository<Answer>().All().FirstOrDefault(x => x.Name == answerModel.Name
+                                                                            && x.UserId == answerModel.UserId);
             if (answer != null)
             {
                 throw new NotImplementedException();
             }
 
             answer = _mapper.Map<Answer>(answerModel);
-            _uow.GetRepository<Answer>().Create(answer);
-            _uow.SaveChanges();
+            await _uow.GetRepository<Answer>().InsertAsync(answer);
+            await _uow.SaveChangesAsync();
         }
 
-        public AnswerModel GetAnswerById(Guid id)
+        public async Task<AnswerModel> GetAnswerByIdAsync(Guid id)
         {
-            var answer = _uow.GetRepository<Answer>().GetById(id);
+            var answer = await _uow.GetRepository<Answer>().GetByIdAsync(id);
             return _mapper.Map<AnswerModel>(answer);
         }
 
@@ -58,5 +60,6 @@ namespace Questionnaire.Service.Services
             }
             return items;
         }
+
     }
 }

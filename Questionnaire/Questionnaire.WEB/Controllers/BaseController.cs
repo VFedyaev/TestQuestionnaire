@@ -36,9 +36,9 @@ namespace Questionnaire.WEB.Controllers
             _userManager = userManager;
         }
 
-        protected QueryResponse<AnswerModel> GetData(int pageSize, int pageNumber, int sort, string query = null)
+        protected async Task<QueryResponse<AnswerModel>> GetData(int pageSize, int pageNumber, int sort, string query = null)
         {
-            return _answerService.Get(new QueryRequest<SortType>
+            return await _answerService.GetAsync(new QueryRequest<SortType>
             {
                 Start = (pageSize * (pageNumber - 1)),
                 Length = pageSize,

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Questionnaire.Data.Interfaces
 {
@@ -6,6 +7,8 @@ namespace Questionnaire.Data.Interfaces
     {
         IRepository<T> GetRepository<T>() where T : class, IEntityBase, new();
         void SaveChanges();
+        Task SaveChangesAsync();
         void RunInTransaction(Action action);
+        Task RunInTransactionAsync(Func<Task> actionAsync);
     }
 }

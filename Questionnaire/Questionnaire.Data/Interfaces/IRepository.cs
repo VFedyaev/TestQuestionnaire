@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Questionnaire.Data.Interfaces
 {
@@ -9,10 +12,17 @@ namespace Questionnaire.Data.Interfaces
 
     public interface IRepository<T> : IRepository where T : class, IEntityBase, new()
     {
-        IQueryable<T> GetAll();
-        T GetById(Guid? id);
-        void Create(T entity);
+        IQueryable<T> All();
+        Task<T> GetByIdAsync(params object[] id);
+        T GetById(params object[] id);
+        Task InsertAsync(T entity);
+        void Insert(T entity);
+        Task InsertAsync(IEnumerable<T> entities);
+        void Insert(IEnumerable<T> entities);
         void Update(T entity);
-        void Delete(Guid id);
+        void Update(IEnumerable<T> entities);
+        void Delete(T entity);
+        void Delete(params object[] id);
+        void Delete(IEnumerable<T> entities);
     }
 }

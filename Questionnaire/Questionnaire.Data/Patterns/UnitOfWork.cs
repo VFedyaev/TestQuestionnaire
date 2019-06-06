@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Questionnaire.Data.Interfaces;
 
@@ -26,16 +27,25 @@ namespace Questionnaire.Data.Patterns
             return (IRepository<T>)_repositories[typeName];
         }
 
-        public void SaveChanges()
-        {
-            _context.SaveChanges();
-        }
+        public void SaveChanges() => _context.SaveChanges();
+        public Task SaveChangesAsync() => _context.SaveChangesAsync();
 
         public void RunInTransaction(Action action)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
                 action.Invoke();
+                // commit transaction
+                transaction.Commit();
+            }
+        }
+
+        public async Task RunInTransactionAsync(Func<Task> actionAsync)
+        {
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                await actionAsync.Invoke();
+                // commit transaction
                 transaction.Commit();
             }
         }

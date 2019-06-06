@@ -1,11 +1,12 @@
 ﻿using Questionnaire.Data.Interfaces;
 using Questionnaire.Service.Query;
+using System.Threading.Tasks;
 
 namespace Questionnaire.Service.Interfaces
 {
     public interface IBaseQueryService<TEntity, TModel, TSortType>
         where TEntity : class, IEntityBase, new()
     {
-        QueryResponse<TModel> Get(QueryRequest<TSortType> query);
+        Task<QueryResponse<TModel>> GetAsync(QueryRequest<TSortType> query);
     }
 }

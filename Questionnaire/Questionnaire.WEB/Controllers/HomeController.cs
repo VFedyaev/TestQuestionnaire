@@ -12,7 +12,8 @@ namespace Questionnaire.WEB.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(IMapper mapper, IAnswerService answerService, UserManager<User> userManager) : base(mapper, answerService, userManager) { }
+        public HomeController(IMapper mapper, IAnswerService answerService, UserManager<User> userManager)
+            : base(mapper, answerService, userManager) { }
 
         public IActionResult Index(string query)
         {
@@ -21,10 +22,12 @@ namespace Questionnaire.WEB.Controllers
             return View();
         }
 
-        public JsonResult GetData(int pageNumber, string query, int sort)
+        // method to getting data to scrolling page
+        public async Task<JsonResult> GetData(int pageNumber, string query, int sort)
         {
             var pageSize = 20;
-            var models =  GetData(pageSize, pageNumber, sort, query);
+            var models = await GetData(pageSize, pageNumber, sort, query);
+
 
             return Json(new { models.Data, total = models.RecordsTotal, filtered = models.RecordsFiltered });
         }
@@ -44,16 +47,16 @@ namespace Questionnaire.WEB.Controllers
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
                 model.Answer.UserId = Guid.Parse(currentUser.Id);
 
-                _answerService.AddAnswer(model.Answer);
+                await _answerService.AddAnswerAsync(model.Answer);
                 return RedirectToAction("Index");
             }
             return View(model);
         }
 
         [Authorize]
-        public IActionResult About(string answerId)
+        public async Task<IActionResult> About(string answerId)
         {
-            var answer = _answerService.GetAnswerById(Guid.Parse(answerId));
+            var answer = await _answerService.GetAnswerByIdAsync(Guid.Parse(answerId));
             var viewModel = new AnswerViewModel
             {
                 Answer = answer

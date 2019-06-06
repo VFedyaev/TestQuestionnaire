@@ -13,7 +13,7 @@ namespace Questionnaire.WEB.Models
         public string Email { get; set; }
 
         [Required]
-        [DataType(DataType.EmailAddress)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }
